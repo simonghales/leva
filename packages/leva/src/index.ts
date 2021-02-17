@@ -29,3 +29,7 @@ export { LevaStoreProvider } from './context'
 export * from './hooks'
 export * from './helpers'
 export { globalStore as store } from './store'
+
+export {
+    Number,
+} from './components/Number'
