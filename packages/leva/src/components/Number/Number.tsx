@@ -16,7 +16,7 @@ export function Number({ label, displayValue, onUpdate, onChange, settings }: Nu
   return (
     <NumberInput value={displayValue} onUpdate={onUpdate} onChange={onChange}>
       <InnerNumberLabel title={label.length > 1 ? label : ''} {...bind()}>
-        {label.charAt(0)}
+        {label}
       </InnerNumberLabel>
     </NumberInput>
   )
