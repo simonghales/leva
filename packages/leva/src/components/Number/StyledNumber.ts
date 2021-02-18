@@ -1,6 +1,6 @@
 import { styled } from '../../styles'
 
-export const InnerNumberLabel = styled('div', {
+export const InnerNumberLabel = styled('label', {
   $draggable: '',
   cursor: 'ew-resize',
 })

@@ -4,66 +4,66 @@ import { parseNumber } from '../../utils'
 import { StyledInput, InputContainer, InnerLabel } from './StyledInput'
 
 type ValueInputProps = {
-  value: string
-  children?: React.ReactNode
-  type?: 'number' | undefined
-  onUpdate: (value: any) => void
-  onChange: (value: string) => void
-  onKeyDown?: (event: React.KeyboardEvent) => void
+    value: string
+    children?: React.ReactNode
+    type?: 'number' | undefined
+    onUpdate: (value: any) => void
+    onChange: (value: string) => void
+    onKeyDown?: (event: React.KeyboardEvent) => void
 } & Partial<StitchesComponent<typeof StyledInput>>
 
 export function ValueInput({ children, value, onUpdate, onChange, onKeyDown, type, ...props }: ValueInputProps) {
-  const update = useCallback(
-    (fn: (value: string) => void) => (event: any) => {
-      const _value = event.currentTarget.value
-      fn(_value)
-    },
-    []
-  )
+    const update = useCallback(
+        (fn: (value: string) => void) => (event: any) => {
+            const _value = event.currentTarget.value
+            fn(_value)
+        },
+        []
+    )
 
-  const onKeyPress = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
-        update(onUpdate)(e)
-        // e.currentTarget.blur()
-      }
-    },
-    [update, onUpdate]
-  )
+    const onKeyPress = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+                update(onUpdate)(e)
+                // e.currentTarget.blur()
+            }
+        },
+        [update, onUpdate]
+    )
 
-  return (
-    <InputContainer>
-      {children && <InnerLabel>{children}</InnerLabel>}
-      <StyledInput
-        levaType={type}
-        type="text"
-        spellCheck="false"
-        value={value}
-        onChange={update(onChange)}
-        onBlur={update(onUpdate)}
-        onKeyPress={onKeyPress}
-        onKeyDown={onKeyDown}
-        {...props}
-      />
-    </InputContainer>
-  )
+    return (
+        <InputContainer>
+            {children && <InnerLabel>{children}</InnerLabel>}
+            <StyledInput
+                levaType={type}
+                type="text"
+                spellCheck="false"
+                value={value}
+                onChange={update(onChange)}
+                onBlur={update(onUpdate)}
+                onKeyPress={onKeyPress}
+                onKeyDown={onKeyDown}
+                {...props}
+            />
+        </InputContainer>
+    )
 }
 
-export function NumberInput({ children, value, onUpdate, onChange }: ValueInputProps) {
-  const onKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      const dir = event.key === 'ArrowUp' ? 1 : event.key === 'ArrowDown' ? -1 : 0
-      if (dir) {
-        event.preventDefault()
-        const step = event.altKey ? 0.1 : event.shiftKey ? 10 : 1
-        onUpdate((v: any) => parseNumber(v) + dir * step)
-      }
-    },
-    [onUpdate]
-  )
-  return (
-    <ValueInput value={value} onUpdate={onUpdate} onChange={onChange} onKeyDown={onKeyDown} type="number">
-      {children}
-    </ValueInput>
-  )
+export function NumberInput({ children, value, onUpdate, onChange, ...props }: ValueInputProps) {
+    const onKeyDown = useCallback(
+        (event: React.KeyboardEvent) => {
+            const dir = event.key === 'ArrowUp' ? 1 : event.key === 'ArrowDown' ? -1 : 0
+            if (dir) {
+                event.preventDefault()
+                const step = event.altKey ? 0.1 : event.shiftKey ? 10 : 1
+                onUpdate((v: any) => parseNumber(v) + dir * step)
+            }
+        },
+        [onUpdate]
+    )
+    return (
+        <ValueInput value={value} onUpdate={onUpdate} onChange={onChange} onKeyDown={onKeyDown} type="number" {...props}>
+            {children}
+        </ValueInput>
+    )
 }
